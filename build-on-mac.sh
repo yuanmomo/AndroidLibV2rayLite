@@ -36,25 +36,26 @@ export PATH=$GOBIN:$GOPATH/bin:$PATH
 
 
 ################ go 下载依赖  ################
-#git clone https://github.com/v2ray/v2ray-core.git core --depth=1
-
 go get -u github.com/jteeuwen/go-bindata/...
-go get -u github.com/golang/protobuf/protoc-gen-go
+go get -u github.com/golang/protobuf/protoc-gen-go/...
+go get -u -insecure v2ray.com/core
 go get -u golang.org/x/mobile/cmd/...
 
+# copy self to GOPATH
+target=${GOPATH}/src/AndroidLibV2rayLite
 
-# change permission
+mkdir -p ${target}
+cp -rfv "${__dir}"/* ${target}/
+# down dep
+go get AndroidLibV2rayLite
 
 ################ 下载 assets  ################
-#bash -vx gen_assets.sh download
+bash gen_assets.sh download
 
 # 编译 tun2socks
-#cd shippedBinarys && make  shippedBinary
+cd shippedBinarys && make  shippedBinary
 
 # 编译 aar
-#GO_PATH_SRC=${GOPATH}/src/AndroidLibV2rayLite
-#mkdir ${GO_PATH_SRC}
-#cp -r ./*  ${GO_PATH_SRC}/
-gomobile init && gomobile bind -v  -tags json ./
-#rm -rf ${GO_PATH_SRC}
+cd ${target}
+gomobile init && gomobile bind -v  -tags json .
 
