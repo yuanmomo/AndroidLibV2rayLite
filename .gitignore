@@ -1,0 +1,11 @@
+.idea
+*.pb.go
+/data
+/assets
+
+binary*.go
+conf/demo/
+
+demo/
+core/
+libv2ray*.[a|j]ar
