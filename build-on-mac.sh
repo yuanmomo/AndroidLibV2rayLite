@@ -7,6 +7,20 @@ set -o nounset
 
 # Set magic variables for current file & dir
 __dir=$(cd "$(dirname "$0")";pwd)
+download_data=0
+update_go_dep=0
+
+for param in "$@"; do
+  case $param in
+  data*)
+    download_data=1
+    ;;
+  dep*)
+    update_go_dep=1
+    ;;
+  esac
+done
+
 
 ################ 监测是否配置 android 的 sdk ################
 if [[ ! ${ANDROID_HOME} ]] ; then
@@ -36,26 +50,45 @@ export PATH=$GOBIN:$GOPATH/bin:$PATH
 
 
 ################ go 下载依赖  ################
-go get -u github.com/jteeuwen/go-bindata/...
-go get -u github.com/golang/protobuf/protoc-gen-go/...
-go get -u -insecure v2ray.com/core
-go get -u golang.org/x/mobile/cmd/...
+if [[ ${update_go_dep} == "1" ]] ; then
+  echo "Update go dep......"
+  # download dep
+  go get -u github.com/golang/protobuf/protoc-gen-go/...
+  go get -u -insecure v2ray.com/core
+  go get -u golang.org/x/mobile/cmd/...
 
-# copy self to GOPATH
-target=${GOPATH}/src/AndroidLibV2rayLite
+  # copy self to GOPATH
+  target=${GOPATH}/src/AndroidLibV2rayLite
 
-mkdir -p ${target}
-cp -rfv "${__dir}"/* ${target}/
-# down dep
-go get AndroidLibV2rayLite
-
+  mkdir -p ${target}
+  cp -rfv "${__dir}"/* ${target}/
+  # down dep
+  go get AndroidLibV2rayLite
+fi
 ################ 下载 assets  ################
-bash gen_assets.sh download
+if [[ ${download_data} == "1" ]] ; then
+  echo "Download geo data....."
+  bash gen_assets.sh download
+fi
 
 # 编译 tun2socks
-cd shippedBinarys && make  shippedBinary
+cd shippedBinarys && make shippedBinary
 
-# 编译 aar
-cd ${target}
-gomobile init && gomobile bind -v  -tags json .
+cd ${__dir}
+for arg in "$@"; do
+  case $arg in
+  ios*)
+    # 编译 ios framework
+    echo "compile ios framework"
+    gomobile bind -target=ios
+    ;;
+  android*)
+    # 编译 aar
+    echo "compile aar"
+    gomobile init && gomobile bind -v  -tags json .
+    ;;
+  esac
+done
+
+
 
