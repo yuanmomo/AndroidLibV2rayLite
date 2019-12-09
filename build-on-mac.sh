@@ -57,14 +57,16 @@ if [[ ${update_go_dep} == "1" ]] ; then
   go get -u -insecure v2ray.com/core
   go get -u golang.org/x/mobile/cmd/...
 
-  # copy self to GOPATH
-  target=${GOPATH}/src/AndroidLibV2rayLite
-
-  mkdir -p ${target}
-  cp -rfv "${__dir}"/* ${target}/
-  # down dep
-  go get AndroidLibV2rayLite
 fi
+
+# copy self to GOPATH
+target=${GOPATH}/src/AndroidLibV2rayLite
+
+mkdir -p ${target}
+cp -rfv "${__dir}"/* ${target}/
+# down dep
+go get AndroidLibV2rayLite
+
 ################ 下载 assets  ################
 if [[ ${download_data} == "1" ]] ; then
   echo "Download geo data....."
@@ -74,7 +76,7 @@ fi
 # 编译 tun2socks
 cd shippedBinarys && make shippedBinary
 
-cd ${__dir}
+cd ${target}
 for arg in "$@"; do
   case $arg in
   ios*)
