@@ -81,11 +81,11 @@ cd shippedBinarys && make shippedBinary
 cd ${target}
 for arg in "$@"; do
   case $arg in
-  ios*)
-    # 编译 ios framework
-    echo "compile ios framework"
-    gomobile bind -target=ios
-    ;;
+#  ios*)
+#    # 编译 ios framework
+#    echo "compile ios framework"
+#    gomobile bind -target=ios
+#    ;;
   android*)
     # 编译 aar
     echo "compile aar"
