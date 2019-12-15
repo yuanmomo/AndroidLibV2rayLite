@@ -54,8 +54,10 @@ if [[ ${update_go_dep} == "1" ]] ; then
   echo "Update go dep......"
   # download dep
   go get -u github.com/golang/protobuf/protoc-gen-go/...
-  go get -u -insecure v2ray.com/core
   go get -u golang.org/x/mobile/cmd/...
+  go get -u github.com/jteeuwen/go-bindata/...
+
+  go get -u -insecure v2ray.com/core
 
 fi
 
