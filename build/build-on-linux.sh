@@ -99,12 +99,6 @@ if [[ ! $(command -v java) ]]; then
     	cmd="yum"
     fi
 
-    # update first
-    ${cmd} -y update
-    if [[ ${cmd} == "apt" ]]; then
-        ${cmd} -y upgrade
-    fi
-
     ${cmd} install -y unzip openjdk-8-jdk
 fi
 
