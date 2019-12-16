@@ -1,8 +1,8 @@
 .idea
 *.pb.go
 /data
-/AndroidLibV2rayLiteGoCode/assets
-/AndroidLibV2rayLiteGoCode/data
+/AndroidLibV2rayLite/assets
+/AndroidLibV2rayLite/data
 
 binary*.go
 conf/demo/
