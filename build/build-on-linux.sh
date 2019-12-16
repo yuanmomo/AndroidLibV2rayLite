@@ -46,12 +46,38 @@ if [[ ! $(command -v sdkmanager) ]]; then
     source ~/.bashrc
 fi
 
+cmdname=$(basename $0)
+useage(){
+    cat << USAGE  >&2
+Usage:
+    $cmdname [sdk] [data] [dep] [ h | help]
+    sdk       :       download latest Android SDK and NDK.
+    data      :       download latest geoip.dat and geosite.dat files.
+    depi      :       update dependencies of AndroidLibV2rayLite.
+    h | help  :       show help.
+USAGE
+}
+if [[ $# == 0 ]] ; then
+    useage
+fi
 
 update_android_sdk=0
+download_geo_data=""
+update_go_dep=""
 for param in "$@"; do
   case $param in
   sdk*)
     update_android_sdk=1
+    ;;
+  data*)
+    download_geo_data="data"
+    ;;
+  dep*)
+    update_go_dep="dep"
+    ;;
+  h*)
+    useage
+    exit 1
     ;;
   esac
 done
@@ -71,5 +97,5 @@ docker run --name builder --rm \
     -v /usr/local/go:/opt/go \
     -v ${ANDROID_HOME}:/opt/android-sdk \
     -v "${root_dir}"/AndroidLibV2rayLite:${GO_PATH_SRC_DIR_IN_DOCKER} \
-    yuanmomo/android-v2ray-build:1.0.0 /bin/bash -vx ${GO_PATH_SRC_DIR_IN_DOCKER}/build-in-docker.sh data dep
+    yuanmomo/android-v2ray-build:1.0.0 /bin/bash -vx ${GO_PATH_SRC_DIR_IN_DOCKER}/build-in-docker.sh ${download_geo_data} update_go_dep}
 
