@@ -88,6 +88,25 @@ if [[ ! $(command -v sdkmanager) ]]; then
     source ~/.bashrc
 fi
 
+# ------------------------------------------------------
+# --- Install open-jdk
+if [[ ! $(command -v java) ]]; then
+    echo "install openjdk-8-jdk ....."
+
+   # Debian(Ubuntu) or RHEL(CentOS)
+    cmd="apt"
+    if [[ $(command -v yum) ]]; then
+    	cmd="yum"
+    fi
+
+    # update first
+    ${cmd} -y update
+    if [[ ${cmd} == "apt" ]]; then
+        ${cmd} -y upgrade
+    fi
+
+    ${cmd} install -y unzip openjdk-8-jdk
+fi
 
 if [[ ${update_android_sdk} == "1" ]] ; then
     # ------------------------------------------------------
