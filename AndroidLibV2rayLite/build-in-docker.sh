@@ -5,7 +5,7 @@ set -e
 export ANDROID_HOME="/opt/android-sdk"
 export ANDROID_NDK_HOME="${ANDROID_HOME}/ndk-bundle"
 
-export GOROOT="/opt/go/"
+export GOROOT="/opt/go"
 export GOBIN="$GOROOT/bin"
 export GOPATH="/root/go"
 export GO111MODULE=off

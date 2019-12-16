@@ -43,11 +43,11 @@ done
 
 echo "set env ......"
 current_dir=$(cd "$(dirname "$0")";pwd)
-root_dir=${current_dir}/../
+root_dir=${current_dir}/..
 
 # ------------------------------------------------------
 # --- set ENV
-DOWNLOAD_URL="https://dl.google.com/android/repository/"
+DOWNLOAD_URL="https://dl.google.com/android/repository"
 SDK_FILE_NAME="sdk-tools-linux-4333796.zip"
 GO_FILE_NAME="go1.13.5.linux-amd64.tar.gz"
 
@@ -55,7 +55,7 @@ ANDROID_HOME="/usr/local/android-sdk"
 ANDROID_NDK_HOME="${ANDROID_HOME}/ndk-bundle"
 PACKAGE_INSTALL_FILE="android_package_to_install"
 
-#cd "${root_dir}" && git pull
+cd "${root_dir}" && git pull
 
 # install docker first
 if [[ ! $(command -v docker) ]]; then
@@ -107,5 +107,5 @@ docker run --name builder --rm \
     -v /usr/local/go:/opt/go \
     -v ${ANDROID_HOME}:/opt/android-sdk \
     -v "${root_dir}"/AndroidLibV2rayLite:${GO_PATH_SRC_DIR_IN_DOCKER} \
-    yuanmomo/android-v2ray-build:1.0.0 /bin/bash -vx ${GO_PATH_SRC_DIR_IN_DOCKER}/build-in-docker.sh ${download_geo_data} update_go_dep}
+    yuanmomo/android-v2ray-build:1.0.0 /bin/bash -vx ${GO_PATH_SRC_DIR_IN_DOCKER}/build-in-docker.sh ${download_geo_data} ${update_go_dep}
 
