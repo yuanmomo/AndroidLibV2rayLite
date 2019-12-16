@@ -1,0 +1,9 @@
+BEGIN{
+Lc=1
+}
+{
+Lc=Lc+1
+if(Lc%30==0){
+print($0)
+}
+}
