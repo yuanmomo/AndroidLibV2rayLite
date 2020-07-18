@@ -65,7 +65,7 @@ fi
 target=${GOPATH}/src/AndroidLibV2rayLite
 
 mkdir -p ${target}
-cp -rfv "${__dir}"/* ${target}/
+cp -rfv "${__dir}"/../AndroidLibV2rayLite/* ${target}/
 # down dep
 go get AndroidLibV2rayLite
 
